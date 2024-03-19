@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.crowdfund.dto.BarResponse;
 import com.project.crowdfund.model.Funds;
 import com.project.crowdfund.service.FundsService;
 
@@ -32,14 +33,19 @@ public class FundsController {
     }
 
     @GetMapping("/getall")
-    public ResponseEntity<Page<Funds>> getAllFunds(@RequestParam(defaultValue = "0") Integer pageNo,
+    public ResponseEntity<Page<Funds>> getAllFunds(@RequestParam(defaultValue = "0") Integer pageIndex,
             @RequestParam(defaultValue = "10") Integer pageSize) {
-        return ResponseEntity.ok(fundsService.getAllFunds(pageNo, pageSize));
+        return ResponseEntity.ok(fundsService.getAllFunds(pageIndex, pageSize));
     }
 
     @GetMapping("/findFunder/{email}")
     public ResponseEntity<List<Funds>> getStudents(@PathVariable String email) {
         return ResponseEntity.ok(fundsService.getStudentsByFunder(email));
+    }
+
+    @GetMapping("/bar")
+    public ResponseEntity<List<BarResponse>> getFundersAndAmount() {
+        return ResponseEntity.ok(fundsService.getFundersAndAmount());
     }
 
 }

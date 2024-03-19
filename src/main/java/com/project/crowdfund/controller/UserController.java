@@ -31,9 +31,9 @@ public class UserController {
     // @PreAuthorize("hasRole('ADMIN')")
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/all")
-    public ResponseEntity<Page<Users>> getAllUsers(@RequestParam(defaultValue = "0") Integer pageNo,
+    public ResponseEntity<Page<Users>> getAllUsers(@RequestParam(defaultValue = "0") Integer pageIndex,
             @RequestParam(defaultValue = "10") Integer pageSize) {
-        return ResponseEntity.ok(userService.getAllUsers(pageNo, pageSize));
+        return ResponseEntity.ok(userService.getAllUsers(pageIndex, pageSize));
     }
 
     @GetMapping("/get/{id}")

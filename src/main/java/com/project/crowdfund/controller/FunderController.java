@@ -40,9 +40,9 @@ public class FunderController {
     }
 
     @GetMapping("/findall")
-    public ResponseEntity<Page<Funder>> findAll(@RequestParam(defaultValue = "0") Integer pageNo,
+    public ResponseEntity<Page<Funder>> findAll(@RequestParam(defaultValue = "0") Integer pageIndex,
             @RequestParam(defaultValue = "10") Integer pageSize) {
-        return ResponseEntity.ok(funderService.findAll(pageNo, pageSize));
+        return ResponseEntity.ok(funderService.findAll(pageIndex, pageSize));
     }
 
     @PatchMapping("/update")

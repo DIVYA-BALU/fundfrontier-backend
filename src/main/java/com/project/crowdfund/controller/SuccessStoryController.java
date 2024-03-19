@@ -31,9 +31,9 @@ public class SuccessStoryController {
     }
 
     @GetMapping("/getall")
-    public ResponseEntity<Page<SuccessStory>> getAllSuccessStory(@RequestParam(defaultValue = "0") Integer pageNo,
+    public ResponseEntity<Page<SuccessStory>> getAllSuccessStory(@RequestParam(defaultValue = "0") Integer pageIndex,
             @RequestParam(defaultValue = "3") Integer pageSize) {
-        return ResponseEntity.ok(successStoryService.getAllSuccessStory(pageNo, pageSize));
+        return ResponseEntity.ok(successStoryService.getAllSuccessStory(pageIndex, pageSize));
     }
 
     @PatchMapping("/update")

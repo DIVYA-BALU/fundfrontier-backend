@@ -31,4 +31,5 @@ public class StudentFundsController {
     public ResponseEntity<StudentFunds> getStudent(@PathVariable String email) {
         return ResponseEntity.ok(studentFundsService.getStudent(email));
     }
+
 }

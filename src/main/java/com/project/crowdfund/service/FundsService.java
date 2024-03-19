@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
+import com.project.crowdfund.dto.BarResponse;
 import com.project.crowdfund.model.Funds;
 
 public interface FundsService {
@@ -13,5 +14,7 @@ public interface FundsService {
     Page<Funds> getAllFunds(Integer pageNo, Integer pageSize);
 
     List<Funds> getStudentsByFunder(String email);
+
+    List<BarResponse> getFundersAndAmount();
 
 }

@@ -48,9 +48,9 @@ public class StudentController {
     }
 
     @GetMapping("/findall")
-    public ResponseEntity<Page<Student>> findAll(@RequestParam(defaultValue = "0") Integer pageNo,
-            @RequestParam(defaultValue = "10") Integer pageSize) {
-        return ResponseEntity.ok(studentService.findAll(pageNo, pageSize));
+    public ResponseEntity<Page<Student>> findAll(@RequestParam(defaultValue = "0") Integer pageIndex,
+            @RequestParam(defaultValue = "3") Integer pageSize) {
+        return ResponseEntity.ok(studentService.findAll(pageIndex, pageSize));
     }
 
     @GetMapping("/getallapproved")
