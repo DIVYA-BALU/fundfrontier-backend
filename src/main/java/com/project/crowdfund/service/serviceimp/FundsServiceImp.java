@@ -1,6 +1,8 @@
 package com.project.crowdfund.service.serviceimp;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -49,9 +51,28 @@ public class FundsServiceImp implements FundsService {
         Aggregation aggregation = Aggregation.newAggregation(
                 Aggregation.group("funderEmail")
                         .sum("studentAmount").as("totalPaidAmount")
-                        .addToSet("studentEmail").as("studentEmails"));
+                        .addToSet("funderEmail").as("funderEmail"));
 
         AggregationResults<BarResponse> results = mongoTemplate.aggregate(aggregation, Funds.class, BarResponse.class);
         return results.getMappedResults();
+    }
+
+    @Override
+    public Map<String, Double> getSumOfAmounts() {
+        List<Funds> fundsList = fundsRepository.findAll();
+
+        double totalStudentAmount = 0.0;
+        double totalMaintenanceAmount = 0.0;
+
+        for (Funds fund : fundsList) {
+            totalStudentAmount += fund.getStudentAmount();
+            totalMaintenanceAmount += fund.getMaintainenceAmount();
+        }
+
+        Map<String, Double> result = new HashMap<>();
+        result.put("totalStudentAmount", totalStudentAmount);
+        result.put("totalMaintenanceAmount", totalMaintenanceAmount);
+
+        return result;
     }
 }

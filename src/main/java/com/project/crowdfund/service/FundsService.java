@@ -1,6 +1,7 @@
 package com.project.crowdfund.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 
@@ -16,5 +17,7 @@ public interface FundsService {
     List<Funds> getStudentsByFunder(String email);
 
     List<BarResponse> getFundersAndAmount();
+
+    Map<String, Double> getSumOfAmounts();
 
 }

@@ -1,6 +1,7 @@
 package com.project.crowdfund.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +47,11 @@ public class FundsController {
     @GetMapping("/bar")
     public ResponseEntity<List<BarResponse>> getFundersAndAmount() {
         return ResponseEntity.ok(fundsService.getFundersAndAmount());
+    }
+
+    @GetMapping("/pie")
+    public ResponseEntity<Map<String, Double>> getSumOfAmounts() {
+        return ResponseEntity.ok(fundsService.getSumOfAmounts());
     }
 
 }
