@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.crowdfund.dto.StudentDto;
+import com.project.crowdfund.dto.StudentRegDto;
 import com.project.crowdfund.model.Student;
 import com.project.crowdfund.service.StudentService;
 
@@ -33,8 +34,14 @@ public class StudentController {
 
     @PostMapping("/save")
     public ResponseEntity<Student> saveStudent(@ModelAttribute StudentDto student) throws IOException {
-        System.out.println(student.getProfilePhoto());
+        System.out.println(student);
         return ResponseEntity.ok(studentService.saveStudent(student));
+    }
+
+    @PostMapping("/savestudent")
+    public ResponseEntity<Student> save(@RequestBody StudentRegDto student) throws IOException {
+        System.out.println(student);
+        return ResponseEntity.ok(studentService.save(student));
     }
 
     @GetMapping("/get/{email}")
@@ -98,5 +105,16 @@ public class StudentController {
     public ResponseEntity<List<Student>> searchByCollege(@PathVariable String college) {
         return ResponseEntity.ok(studentService.searchByCollege(college));
     }
+
+    @PutMapping("/updatestudent/{email}")
+    public ResponseEntity<Student> updateStudent(  @RequestParam("file1") MultipartFile file1,
+    @RequestParam("file2") MultipartFile file2,
+    @RequestParam("file3") MultipartFile file3,
+    @RequestParam("file4") MultipartFile file4,
+    @RequestParam("file5") MultipartFile file5,
+    @PathVariable String email) throws IOException{
+        return ResponseEntity.ok(studentService.updateStudent(file1, file2, file3, file4, file5, email));
+    }
+
 
 }

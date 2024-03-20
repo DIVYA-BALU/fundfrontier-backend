@@ -15,11 +15,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.crowdfund.Repository.StudentRepository;
 import com.project.crowdfund.Repository.UserRepository;
 import com.project.crowdfund.dto.StudentDto;
+import com.project.crowdfund.dto.StudentRegDto;
 import com.project.crowdfund.model.Student;
 import com.project.crowdfund.model.Users;
 import com.project.crowdfund.service.StudentFundsService;
@@ -275,7 +278,6 @@ public class StudentServiceImp implements StudentService {
         student.setProfilePhoto(profilefpath);
         studentRepository.save(student);
         Files.copy(file.getInputStream(), Paths.get(profilePath), StandardCopyOption.REPLACE_EXISTING);
-        
 
         return student;
 
@@ -294,6 +296,91 @@ public class StudentServiceImp implements StudentService {
     @Override
     public List<Student> searchByCollege(String college) {
         return studentRepository.findByCollegeName(college);
+    }
+
+    @Override
+    public Student save(StudentRegDto student) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+        LocalDateTime localDateTime1 = LocalDateTime.parse(student.getDateOfBirth(), formatter);
+        LocalDateTime localDateTime2 = LocalDateTime.parse(student.getEndDate(), formatter);
+
+        Users user = userRepository.findByEmail(student.getEmail()).get();
+        System.out.println(user.getEmail());
+
+        Student std = Student.builder()
+                .firstName(student.getFirstName())
+                .lastName(student.getLastName())
+                .email(user)
+                .phoneNumber(student.getPhoneNumber())
+                .gender(student.getGender())
+                .countryOfBirth(student.getCountryOfBirth())
+                .countryOfResidence(student.getCountryOfResidence())
+                .dateOfBirth(localDateTime1)
+                .address(student.getAddress())
+                .city(student.getCity())
+                .state(student.getState())
+                .zipCode(student.getZipCode())
+                .school(student.getSchool())
+                .collegeName(student.getCollegeName())
+                .yearOfStudy(student.getYearOfStudy())
+                .course(student.getCourse())
+                .studentId(student.getStudentId())
+                .fundRequired(student.getFundRequired())
+                .endDate(localDateTime2)
+                .status("Pending")
+                .build();
+
+        Student savedStudent = studentRepository.save(std);
+        return savedStudent;
+    }
+
+    @Override
+    public Student updateStudent(MultipartFile file1,
+           MultipartFile file2,
+           MultipartFile file3,
+           MultipartFile file4,
+           MultipartFile file5,
+           String email) throws IOException {
+        
+                String profile = file1.getOriginalFilename();
+                String aadhar = file2.getOriginalFilename();
+                String income = file3.getOriginalFilename();
+                String studentId = file5.getOriginalFilename();
+                String fees = file4.getOriginalFilename();
+        
+                String profilefpath = path + profile;
+                String aadharfpath = path + aadhar;
+                String incomefpath = path + income;
+                String studentidfpath = path + studentId;
+                String feesfpath = path + fees;
+        
+                String profilePath = uploads + profile;
+                String aadharPath = uploads + aadhar;
+                String incomePath = uploads + income;
+                String studentIdPath = uploads + studentId;
+                String feesPath = uploads + fees;
+        
+                Users user = userRepository.findByEmail(email).get();
+                
+                Student student = studentRepository.findByEmail(user);
+                student.setAadharCardProof(aadharfpath);
+                student.setIncomeProof(incomefpath);
+                student.setProfilePhoto(profilefpath);
+                student.setStudentIdentityProof(studentidfpath);
+                student.setFeeDetails(feesfpath);
+
+                Student savedStudent = studentRepository.save(student);
+        
+                Files.copy(file1.getInputStream(), Paths.get(profilePath));
+                Files.copy(file2.getInputStream(), Paths.get(aadharPath));
+                Files.copy(file3.getInputStream(), Paths.get(incomePath));
+                Files.copy(file4.getInputStream(), Paths.get(studentIdPath));
+                Files.copy(file5.getInputStream(), Paths.get(feesPath));
+        
+                sendMail(email, savedStudent.getFirstName() + " " + savedStudent.getLastName());
+        
+                return savedStudent;
     }
 
 }

@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.crowdfund.dto.StudentDto;
+import com.project.crowdfund.dto.StudentRegDto;
 import com.project.crowdfund.model.Student;
 
 public interface StudentService {
@@ -34,5 +36,13 @@ public interface StudentService {
     List<Student> searchByCollege(String college);
 
     Page<Student> getAllPending(Integer pageNo, Integer pageSize);
+
+    Student save(StudentRegDto student);
+
+    Student updateStudent(MultipartFile file1,
+            MultipartFile file2,
+            MultipartFile file3,
+            MultipartFile file4,
+            MultipartFile file5,String email) throws IOException;
 
 }
