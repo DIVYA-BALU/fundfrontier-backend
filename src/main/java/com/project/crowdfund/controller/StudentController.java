@@ -1,7 +1,6 @@
 package com.project.crowdfund.controller;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +45,7 @@ public class StudentController {
 
     @GetMapping("/get/{email}")
     public ResponseEntity<Student> getStudent(@PathVariable String email) {
+        System.out.println("get called ..........");
         return ResponseEntity.ok(studentService.getStudent(email));
     }
 
@@ -92,18 +92,21 @@ public class StudentController {
     }
 
     @GetMapping("/searchbygroup/{group}")
-    public ResponseEntity<List<Student>> searchByGroup(@PathVariable String group) {
-        return ResponseEntity.ok(studentService.searchByGroup(group));
+    public ResponseEntity<Page<Student>> searchByGroup(@RequestParam(defaultValue = "0") Integer pageNo,
+    @RequestParam(defaultValue = "10") Integer pageSize, @PathVariable String group) {
+        return ResponseEntity.ok(studentService.searchByGroup(pageNo, pageSize, group));
     }
 
     @GetMapping("/searchbyyear/{year}")
-    public ResponseEntity<List<Student>> searchByYear(@PathVariable String year) {
-        return ResponseEntity.ok(studentService.searchByYear(year));
+    public ResponseEntity<Page<Student>> searchByYear(@RequestParam(defaultValue = "0") Integer pageNo,
+    @RequestParam(defaultValue = "10") Integer pageSize, @PathVariable String year) {
+        return ResponseEntity.ok(studentService.searchByYear(pageNo, pageSize, year));
     }
 
     @GetMapping("/searchbycollege/{college}")
-    public ResponseEntity<List<Student>> searchByCollege(@PathVariable String college) {
-        return ResponseEntity.ok(studentService.searchByCollege(college));
+    public ResponseEntity<Page<Student>> searchByCollege(@RequestParam(defaultValue = "0") Integer pageNo,
+    @RequestParam(defaultValue = "10") Integer pageSize, @PathVariable String college) {
+        return ResponseEntity.ok(studentService.searchByCollege(pageNo, pageSize, college));
     }
 
     @PutMapping("/updatestudent/{email}")

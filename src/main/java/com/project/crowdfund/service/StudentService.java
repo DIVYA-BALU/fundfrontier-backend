@@ -1,7 +1,6 @@
 package com.project.crowdfund.service;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,11 +27,11 @@ public interface StudentService {
 
     Student updateProfile(MultipartFile file, String email) throws IOException;
 
-    List<Student> searchByGroup(String group);
+    Page<Student> searchByGroup(Integer pageNo, Integer pageSize, String group);
 
-    List<Student> searchByYear(String year);
+    Page<Student> searchByYear(Integer pageNo, Integer pageSize, String year);
 
-    List<Student> searchByCollege(String college);
+    Page<Student> searchByCollege(Integer pageNo, Integer pageSize,String college);
 
     Page<Student> getAllPending(Integer pageNo, Integer pageSize);
 

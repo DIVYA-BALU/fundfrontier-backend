@@ -19,14 +19,14 @@ public interface StudentRepository extends MongoRepository<Student, String> {
     Page<Student> findByStatus(String string, PageRequest pageRequest);
 
     @Query("{ 'course': { $regex: ?0, $options: 'i' } }")
-    List<Student> findByCourse(String group);
+    Page<Student> findByCourse(String group, PageRequest pageRequest);
 
     // @Query("{ 'yearOfStudy': { $regex: ?0, $options: 'i' } }")
-    List<Student> findByYearOfStudy(String year);
+    Page<Student> findByYearOfStudy(String year, PageRequest pageRequest);
 
     List<Student> findByStatus(String string);
 
     @Query("{ 'collegeName': { $regex: ?0, $options: 'i' } }")
-    List<Student> findByCollegeName(String college);
+    Page<Student> findByCollegeName(String college, PageRequest pageRequest);
 
 }

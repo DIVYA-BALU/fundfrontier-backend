@@ -6,7 +6,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -282,18 +281,24 @@ public class StudentServiceImp implements StudentService {
     }
 
     @Override
-    public List<Student> searchByGroup(String group) {
-        return studentRepository.findByCourse(group);
+    public Page<Student> searchByGroup(Integer pageNo, Integer pageSize, String group) {
+        PageRequest pageRequest = PageRequest.of(pageNo, pageSize);
+        Page<Student> student= studentRepository.findByCourse(group, pageRequest);
+        return student ;
     }
 
     @Override
-    public List<Student> searchByYear(String year) {
-        return studentRepository.findByYearOfStudy(year);
+    public Page<Student> searchByYear(Integer pageNo, Integer pageSize, String year) {
+        PageRequest pageRequest = PageRequest.of(pageNo, pageSize);
+        Page<Student> student= studentRepository.findByYearOfStudy(year, pageRequest);
+        return student ;
     }
 
     @Override
-    public List<Student> searchByCollege(String college) {
-        return studentRepository.findByCollegeName(college);
+    public Page<Student> searchByCollege(Integer pageNo, Integer pageSize, String college) {
+        PageRequest pageRequest = PageRequest.of(pageNo, pageSize);
+        Page<Student> student= studentRepository.findByCollegeName(college, pageRequest);
+        return student;
     }
 
     @Override
